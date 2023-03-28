@@ -1,0 +1,16 @@
+- name: Change default Nginx port to 8080
+  hosts: tag_group_vmss_my_vmss_group
+  become: true
+
+  tasks:
+    - name: Update Nginx configuration file
+      lineinfile:
+        path: /etc/nginx/sites-available/default
+        regexp: 'listen 80'
+        line: 'listen 8080'
+        backup: yes
+
+    - name: Restart Nginx
+      systemd:
+        name: nginx
+        state: restarted
