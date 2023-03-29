@@ -6,3 +6,25 @@ The output includes credentials that you must protect. Be sure that you do not i
   "password": "9v78Q~8Nvg3y8y1iPnZtRXfadgc~hnu.GbvYNbS5",
   "tenant": "09bed70f-d1c4-4bac-9f1b-c8a9407e0f8e"
 }
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master', credentialsId: '47fd99e5-ed2d-4640-9df0-db1b9a8da894', url: 'https://github.com/ArunWadhwagit/zantac'
+            }
+        }
+        stage('Terraform init') {
+            steps {
+                bat 'terraform init'
+            }
+        }
+        stage('Terraform apply') {
+            steps {
+                bat 'terraform apply --auto-approve'
+            }
+        }
+        
+    }
+}
